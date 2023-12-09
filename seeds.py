@@ -1,5 +1,16 @@
 # seeds.py
-from models import Restaurant, Customer, Review, session
+from lib.customer import Customer
+from lib.restaurant import Restaurant
+from lib.review import Review
+from lib.base import Base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+# Setup SQLAlchemy engine and session
+engine = create_engine('sqlite:///database.db')  # Adjust the connection string as needed
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 # Add sample data
 tasty_bites = Restaurant(name='Tasty Bites', price=2)
