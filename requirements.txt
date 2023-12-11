@@ -1,3 +1,0 @@
-# requirements.txt
-sqlalchemy==1.4.30
-alembic==1.7.4
