@@ -1,7 +1,7 @@
 # lib/seed.py
 from sqlalchemy.orm import Session
-from .config import SessionLocal
-from .models import Customer, Restaurant, Review
+from config import SessionLocal  
+from models import Customer, Restaurant, Review
 
 def seed_data(db: Session):
     # Create sample instances of Customer, Restaurant, and Review

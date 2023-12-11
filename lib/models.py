@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session
 
 Base = declarative_base()
 
@@ -15,10 +16,10 @@ class Customer(Base):
     # Define relationships
     reviews = relationship("Review", back_populates="customer")
 
-    def reviews(self):
+    def get_reviews(self):
         return self.reviews
 
-    def restaurants(self):
+    def get_restaurants(self):
         return [review.restaurant for review in self.reviews]
 
     def full_name(self):
@@ -47,17 +48,17 @@ class Restaurant(Base):
     # Define relationships
     reviews = relationship("Review", back_populates="restaurant")
 
-    def reviews(self):
+    def get_reviews(self):
         return self.reviews
 
-    def customers(self):
+    def get_customers(self):
         return [review.customer for review in self.reviews]
 
     @classmethod
-    def fanciest(cls):
-        if not cls.query.all():
+    def fanciest(cls, session: Session):
+        if not session.query(cls).all():
             return None
-        return max(cls.query.all(), key=lambda restaurant: restaurant.price)
+        return max(session.query(cls).all(), key=lambda restaurant: restaurant.price)
 
     def all_reviews(self):
         return [f"Review for {self.name} by {review.customer.full_name()}: {review.star_rating} stars." for review in self.reviews]
@@ -74,10 +75,10 @@ class Review(Base):
     customer = relationship("Customer", back_populates="reviews")
     restaurant = relationship("Restaurant", back_populates="reviews")
 
-    def customer(self):
+    def get_customer(self):
         return self.customer
 
-    def restaurant(self):
+    def get_restaurant(self):
         return self.restaurant
 
     def full_review(self):
