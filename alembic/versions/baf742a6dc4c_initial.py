@@ -39,7 +39,7 @@ def upgrade() -> None:
     op.create_index(op.f('ix_restaurants_name'), 'restaurants', ['name'], unique=False)
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('star_rating', sa.Integer(), nullable=True),
+    sa.Column('star_rating', sa.Integer(), nullable=True),  # Include the star_rating column
     sa.Column('customer_id', sa.Integer(), nullable=True),
     sa.Column('restaurant_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['customer_id'], ['customers.id'], ),
